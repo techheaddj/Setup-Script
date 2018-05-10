@@ -31,6 +31,8 @@ function name-and-others($serial,$model,$domain,$credential){
         Write-Output "Unknown"
         $unitName="Unknown-$serial"
     }
+    #renames the computer
     (Get-WmiObject Win32_ComputerSystem).Rename("$unitName")
+    #joins to domain
     Add-Computer -DomainName $domain -Credential $credential
 }

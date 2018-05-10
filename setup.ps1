@@ -44,4 +44,8 @@ $discard,$model = $(wmic ComputerSystem Get Model /value | Out-String).split('='
 $discard,$serial = $(wmic systemenclosure get serialnumber /value | Out-String).split('=')
 Clear-Variable $discard
 
-name-and-others($serial,$model,$domain,$adminCredcential);
+#this function is in the Module.psm1, which goes through an if-then-else loop
+#to determine the proper name via convention of this particular unit. If the unit
+#is a laptop, it adds our Spiceworks agent and wifi password to the laptop,
+#then renames it and joins it to our company domain.
+name-and-others($serial,$model,$domain,$adminCredcential)
