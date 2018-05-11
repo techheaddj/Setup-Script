@@ -3,23 +3,23 @@ $domain = Read-Host -Prompt 'NETBIOS domain name'
 $adminCredcential = Get-Credential 
 
 #Module containing some predefined functions to keep this simpler
-Import-Module Module.psm1
+Import-Module C:\Install\Module.psm1
 
 #Installs MS Office 2016 with a preset configuration and license key.
 #The complete installation not included with github repo, as that is licensed through my current employer
 Write-Output "Installing MS Office 2016"
-Start-Process -FilePath C:\Install\64\setup.exe -ArgumentList "/adminfile setup20161013-2.MSP" -Wait
+Start-Process -FilePath "C:\Install\bin\MS Office 2016 64\setup.exe" -ArgumentList "/adminfile setup20161013-2.MSP" -Wait
 
 #This runs through the command line version of Ninite Pro. Not included with my github repo, as that is licensed through my current employer
 Write-Output "Running Ninite"
-Start-Process -FilePath C:\Install\NinitePro\NinitePro.exe -ArgumentList "/silent NiniteReport.txt /select Flash `"Google Backup and Sync`" `"7-Zip`" Chrome CutePDF Reader VLC Silverlight Pidgin Air Shockwave /allusers" -Wait
+Start-Process -FilePath C:\Install\bin\NinitePro\NinitePro.exe -ArgumentList "/silent NiniteReport.txt /select Flash `"Google Backup and Sync`" `"7-Zip`" Chrome CutePDF Reader VLC Silverlight Pidgin Air Shockwave /allusers" -Wait
 Write-Output "Running Ninite updates"
-Start-Process C:\Install\NinitePro\NinitePro.exe -ArgumentList "/silent /updateonly NinireUpdateReport.txt" -Wait
+Start-Process C:\Install\bin\NinitePro\NinitePro.exe -ArgumentList "/silent /updateonly NinireUpdateReport.txt" -Wait
 
 #desktopinfo shows system data in the bottom right corner
 #with the included config, hostname, free space, signed in user, memory are the main details shown
 Write-Output "Setting up DesktopInfo"
-Copy-Item 'C:\Install\SMCH Info' -Destination 'C:\SMCH Info'
+Copy-Item 'C:\Install\bin\SMCH Info' -Destination 'C:\SMCH Info'
 
 #All of the shortcuts being deleted here are ones that nobody really opens by themselves, but rather through parent programs or
 #through file type associations.
@@ -30,7 +30,7 @@ foreach($item in $deleteList)
 {
     Remove-Item -Path $item
     $i++
-    Write-Output "Deleted $i of $deleteList.Count"
+    Write-Output "Deleted $i of "$deleteList.Count
 }
 
 #Moving the shortcuts from Public to Default allows the users to delete any unwanted shortcuts
@@ -42,10 +42,11 @@ Move-Item -Path C:\Users\Public\Desktop\* -Destination C:\Users\Default\Desktop
 Write-Output "Getting model and serial numbers"
 $discard,$model = $(wmic ComputerSystem Get Model /value | Out-String).split('=')
 $discard,$serial = $(wmic systemenclosure get serialnumber /value | Out-String).split('=')
+Write-Output "$model and $serial"
 Clear-Variable $discard
 
 #this function is in the Module.psm1, which goes through an if-then-else loop
 #to determine the proper name via convention of this particular unit. If the unit
 #is a laptop, it adds our Spiceworks agent and wifi password to the laptop,
 #then renames it and joins it to our company domain.
-name-and-others($serial,$model,$domain,$adminCredcential)
+nameAndOthers($serial,$model,$domain,$adminCredcential)
