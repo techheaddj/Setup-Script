@@ -5,3 +5,6 @@ licensing reasons). Then, using Ninite Pro https://ninite.com/pro (not included 
 Reader, VLC media player, Silverlight, Pidgin, Air, and Shockwave. It also sets up DesktopInfo http://www.glenn.delahoy.com/software/ using configuration prepared
 beforehand (freeware, included). Also included are DelProf2 https://helgeklein.com/free-tools/delprof2-user-profile-deletion-tool/ and OemKey http://neosmart.net/OemKey/
 which I use for cleanup and activation using the product key if it is provided on the motherboard.
+
+To use this, just copy the contents of this to C:\Install and run the setup.ps1. It will ask for the netbios name of your domain, plus admin credentials to join the computer to
+your domain. It then takes care of the rest. Just remember to initiate this as admin. I haven't gotten that good yet, but will update soon with that as well.
